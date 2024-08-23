@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - code-workflow
 
 jobs:
   build-test-and-push-main:
