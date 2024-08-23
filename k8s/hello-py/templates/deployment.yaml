@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-py
+  namespace: hello
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: hello-py
+      app.kubernetes.io/instance: hello-py
+  template:
+    metadata:
+      annotations:
+        helm.sh/revision: "{{ .Release.Revision }}"
+      labels:
+        app.kubernetes.io/name: hello-py
+        app.kubernetes.io/instance: hello-py
+    spec:
+      containers:
+        - name: hello-py
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: HELLO_MESSAGE
+              value: "{{ .Values.config.hello.message }}"
+

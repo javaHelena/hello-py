@@ -1,0 +1,17 @@
+replicaCount: 3
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+
+image:
+  repository: acrjavahelena.azurecr.io/hello/hello-py
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+config:
+  hello:
+    message: "hello Python from values yaml file"
