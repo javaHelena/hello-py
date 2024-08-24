@@ -65,6 +65,6 @@ jobs:
           docker tag ${{ vars.AZURE_REGISTRY_URL }}/hello/hello-py:${{ env.SHORT_SHA }} ${{ vars.AZURE_REGISTRY_URL }}/hello/hello-py:latest
           docker push ${{ vars.AZURE_REGISTRY_URL }}/hello/hello-py:latest
 
-  deploy-hello-pu-to-aks:
-    needs: build-test-and-push-main
-    uses: ./.github/workflows/deploy-to-aks.yml
+#  deploy-hello-pu-to-aks:
+#    needs: build-test-and-push-main
+#    uses: ./.github/workflows/deploy-to-aks.yml
