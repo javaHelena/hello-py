@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - main
-      - code-workflow
+      - python-errors
 
 jobs:
   build-test-and-push-main:
@@ -25,9 +25,9 @@ jobs:
         run: |
           pip install -r src/requirements.txt
 
-#      - name: Run tests (if any)
-#        run: |
-#          pytest src/  # Adjust if your tests are also in the src directory
+      #      - name: Run tests (if any)
+      #        run: |
+      #          pytest src/  # Adjust if your tests are also in the src directory
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -47,6 +47,15 @@ jobs:
         run: |
           docker build -t ${{ vars.AZURE_REGISTRY_URL }}/hello/hello-py:${{ env.SHORT_SHA }} .
 
+      - name: Test Docker image
+        run: |
+          docker run --rm -d --name hello-py-test -p 5000:5000 ${{ vars.AZURE_REGISTRY_URL }}/hello/hello-py:${{ env.SHORT_SHA }}
+          sleep 10  # Wait a few seconds for the container to start
+          docker logs hello-py-test
+          curl -f http://localhost:5000/ || exit 1  # Check if the app is running
+          docker exec hello-py-test pip show flask werkzeug || exit 1  # Verify Flask and Werkzeug are installed
+          docker stop hello-py-test
+
       - name: Push Docker image to ACR - SHORT SHA
         run: |
           docker push ${{ vars.AZURE_REGISTRY_URL }}/hello/hello-py:${{ env.SHORT_SHA }}  
@@ -55,3 +64,7 @@ jobs:
         run: |
           docker tag ${{ vars.AZURE_REGISTRY_URL }}/hello/hello-py:${{ env.SHORT_SHA }} ${{ vars.AZURE_REGISTRY_URL }}/hello/hello-py:latest
           docker push ${{ vars.AZURE_REGISTRY_URL }}/hello/hello-py:latest
+
+#  deploy-hello-pu-to-aks:
+#    needs: build-test-and-push-main
+#    uses: ./.github/workflows/deploy-to-aks.yml

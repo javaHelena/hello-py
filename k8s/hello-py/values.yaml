@@ -2,7 +2,7 @@ replicaCount: 3
 
 service:
   type: ClusterIP
-  port: 8080
+  port: 5000
 
 ingress:
   enabled: true
@@ -10,7 +10,7 @@ ingress:
 image:
   repository: acrjavahelena.azurecr.io/hello/hello-py
   tag: "latest"
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 config:
   hello:
