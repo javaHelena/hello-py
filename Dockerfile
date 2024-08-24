@@ -10,13 +10,16 @@ COPY src/ /app/
 # Verify that the files are copied correctly
 RUN ls -la /app/
 
-# Install any needed packages specified in requirements.txt
+# Install pip and update to the latest version to avoid any issues
+RUN pip install --upgrade pip
+
+# Install Werkzeug and Flask explicitly to avoid any dependency issues
+RUN pip install Werkzeug==2.0.3 Flask==2.0.3
+
+# Install any additional needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Verify that Python version is 3.9
-RUN python --version
-
-# Verify that Flask and Werkzeug are installed
+# Verify that Flask and Werkzeug are installed with the correct versions
 RUN pip show flask werkzeug
 
 # Expose port 5000 to the outside world
