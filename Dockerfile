@@ -16,8 +16,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Verify that Python version is 3.9
 RUN python --version
 
-# Verify that Flask is installed
-RUN pip show flask
+# Verify that Flask and Werkzeug are installed
+RUN pip show flask werkzeug
 
 # Expose port 5000 to the outside world
 EXPOSE 5000

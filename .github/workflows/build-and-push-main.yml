@@ -25,9 +25,9 @@ jobs:
         run: |
           pip install -r src/requirements.txt
 
-#      - name: Run tests (if any)
-#        run: |
-#          pytest src/  # Adjust if your tests are also in the src directory
+      #      - name: Run tests (if any)
+      #        run: |
+      #          pytest src/  # Adjust if your tests are also in the src directory
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -53,6 +53,7 @@ jobs:
           sleep 10  # Wait a few seconds for the container to start
           docker logs hello-py-test
           curl -f http://localhost:5000/ || exit 1  # Check if the app is running
+          docker exec hello-py-test pip show flask werkzeug || exit 1  # Verify Flask and Werkzeug are installed
           docker stop hello-py-test
 
       - name: Push Docker image to ACR - SHORT SHA
