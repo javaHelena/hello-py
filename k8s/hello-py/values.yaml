@@ -2,7 +2,7 @@ replicaCount: 3
 
 service:
   type: ClusterIP
-  port: 8080
+  port: 5000
 
 ingress:
   enabled: true
