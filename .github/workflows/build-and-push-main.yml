@@ -66,5 +66,5 @@ jobs:
           docker push ${{ vars.AZURE_REGISTRY_URL }}/hello/hello-py:latest
 
   deploy-hello-pu-to-aks:
-    needs: deploy-to-aks
-    uses: ./.github/workflows/build-and-push-main.yml
+    needs: build-test-and-push-main
+    uses: ./.github/workflows/deploy-to-aks.yml
