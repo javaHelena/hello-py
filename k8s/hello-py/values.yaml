@@ -10,7 +10,7 @@ ingress:
 image:
   repository: acrjavahelena.azurecr.io/hello/hello-py
   tag: "latest"
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 config:
   hello:
