@@ -13,7 +13,10 @@ RUN ls -la /app/
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Verify that the required packages are installed
+# Verify that Python version is 3.9
+RUN python --version
+
+# Verify that Flask is installed
 RUN pip show flask
 
 # Expose port 5000 to the outside world
