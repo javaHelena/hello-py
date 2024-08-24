@@ -9,10 +9,10 @@ spec:
     - host: aksjavahelena.westeurope.cloudapp.azure.com
       http:
         paths:
-          - path: /hello-java
+          - path: /hello-py
             pathType: Prefix
             backend:
               service:
-                name: hello-java
+                name: hello-py
                 port:
                   number: 8080
