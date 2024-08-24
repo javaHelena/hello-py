@@ -14,7 +14,7 @@ RUN ls -la /app/
 RUN pip install --upgrade pip
 
 # Install Werkzeug and Flask explicitly to avoid any dependency issues
-RUN pip install Werkzeug==2.0.3 Flask==2.0.3
+#RUN pip install Werkzeug==2.2.2 Flask==2.2.2
 
 # Install any additional needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
