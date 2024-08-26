@@ -48,12 +48,16 @@ jobs:
       - name: Update the Helm revision in the helm values file
         run: |
           pwd
+          cd k8s/hello-py/templates
+          pwd
           echo "Updating the Helm revision in the helm values file..."
           sed -i "s/helm.sh\/revision: \".*\"/helm.sh\/revision: \"${{ env.SHORT_SHA }}\"/g" deployments.yaml
           cat deployments.yaml
 
       - name: Commit the changes to the Helm revision
         run: |
+          pwd
+          cd k8s/hello-py/templates
           pwd
           echo "Committing the changes to the Helm revision..."
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
