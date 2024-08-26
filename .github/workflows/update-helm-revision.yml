@@ -22,8 +22,15 @@ jobs:
           echo "Current working directory:"
           pwd
 
+      - name: Navigate to the root of the git repository
+        id: root-dir
+        run: |
+          ROOT_DIR=$(git rev-parse --show-toplevel)
+          echo "ROOT_DIR=$ROOT_DIR" >> $GITHUB_ENV
+
       - name: Verify file existence
         run: |
+          cd ${{ env.ROOT_DIR }}
           if [ ! -f k8s/hello-py/templates/deployments.yaml ]; then
             echo "File not found: k8s/hello-py/templates/deployments.yaml"
             exit 1
@@ -31,20 +38,17 @@ jobs:
 
       - name: Update the Helm revision in the helm values file
         run: |
+          cd ${{ env.ROOT_DIR }}
           echo "Updating the Helm revision in the helm values file..."
           sed -i "s/helm.sh\/revision: \".*\"/helm.sh\/revision: \"${{ env.SHORT_SHA }}\"/g" k8s/hello-py/templates/deployments.yaml
           cat k8s/hello-py/templates/deployments.yaml
 
       - name: Commit the changes to the Helm revision
         run: |
+          cd ${{ env.ROOT_DIR }}
           echo "Committing the changes to the Helm revision..."
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git add k8s/hello-py/templates/deployments.yaml
           git commit -m "Update Helm revision to ${{ env.SHORT_SHA }}"
           git push
-
-
-
-
-
