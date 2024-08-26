@@ -27,16 +27,19 @@ jobs:
         run: |
           ROOT_DIR=$(git rev-parse --show-toplevel)
           echo "ROOT_DIR=$ROOT_DIR" >> $GITHUB_ENV
+          pwd
 
       - name: List contents of the directory
         run: |
           cd ${{ env.ROOT_DIR }}
+          pwd
           echo "Listing contents of k8s/hello-py/templates:"
           ls -l k8s/hello-py/templates
 
       - name: Verify file existence
         run: |
           cd k8s/hello-py/templates
+          pwd
           if [ ! -f deployments.yaml ]; then
             echo "File not found: k8s/hello-py/templates/deployments.yaml"
             exit 1
@@ -44,12 +47,14 @@ jobs:
 
       - name: Update the Helm revision in the helm values file
         run: |
+          pwd
           echo "Updating the Helm revision in the helm values file..."
           sed -i "s/helm.sh\/revision: \".*\"/helm.sh\/revision: \"${{ env.SHORT_SHA }}\"/g" deployments.yaml
           cat deployments.yaml
 
       - name: Commit the changes to the Helm revision
         run: |
+          pwd
           echo "Committing the changes to the Helm revision..."
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
