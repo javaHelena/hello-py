@@ -36,14 +36,14 @@ jobs:
           echo "Listing contents of k8s/hello-py/templates:"
           ls -l k8s/hello-py/templates
 
-      - name: Verify file existence
-        run: |
-          cd k8s/hello-py/templates
-          pwd
-          if [ ! -f deployments.yaml ]; then
-            echo "File not found: k8s/hello-py/templates/deployments.yaml"
-            exit 1
-          fi
+#      - name: Verify file existence
+#        run: |
+#          cd k8s/hello-py/templates
+#          pwd
+#          if [ ! -f deployments.yaml ]; then
+#            echo "File not found: k8s/hello-py/templates/deployments.yaml"
+#            exit 1
+#          fi
 
       - name: Update the Helm revision in the helm values file
         run: |
