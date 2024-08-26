@@ -36,7 +36,8 @@ jobs:
 
       - name: Verify file existence
         run: |
-          if [ ! -f k8s/hello-py/templates/deployments.yaml ]; then
+          cd k8s/hello-py/templates
+          if [ ! -f deployments.yaml ]; then
             echo "File not found: k8s/hello-py/templates/deployments.yaml"
             exit 1
           fi
@@ -44,14 +45,14 @@ jobs:
       - name: Update the Helm revision in the helm values file
         run: |
           echo "Updating the Helm revision in the helm values file..."
-          sed -i "s/helm.sh\/revision: \".*\"/helm.sh\/revision: \"${{ env.SHORT_SHA }}\"/g" k8s/hello-py/templates/deployments.yaml
-          cat k8s/hello-py/templates/deployments.yaml
+          sed -i "s/helm.sh\/revision: \".*\"/helm.sh\/revision: \"${{ env.SHORT_SHA }}\"/g" deployments.yaml
+          cat deployments.yaml
 
       - name: Commit the changes to the Helm revision
         run: |
           echo "Committing the changes to the Helm revision..."
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git add k8s/hello-py/templates/deployments.yaml
+          git add deployments.yaml
           git commit -m "Update Helm revision to ${{ env.SHORT_SHA }}"
           git push
