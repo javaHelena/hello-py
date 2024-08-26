@@ -65,6 +65,6 @@ jobs:
           docker tag ${{ vars.AZURE_REGISTRY_URL }}/hello/hello-py:${{ env.SHORT_SHA }} ${{ vars.AZURE_REGISTRY_URL }}/hello/hello-py:latest
           docker push ${{ vars.AZURE_REGISTRY_URL }}/hello/hello-py:latest
 
-  update-helm-revision:
-    needs: build-test-and-push-main
-    uses: ./.github/workflows/update-helm-revision.yml
+#  update-helm-revision:
+#    needs: build-test-and-push-main
+#    uses: ./.github/workflows/update-helm-revision.yml
