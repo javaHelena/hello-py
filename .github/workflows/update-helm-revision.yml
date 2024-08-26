@@ -28,6 +28,12 @@ jobs:
           ROOT_DIR=$(git rev-parse --show-toplevel)
           echo "ROOT_DIR=$ROOT_DIR" >> $GITHUB_ENV
 
+      - name: List contents of the directory
+        run: |
+          cd ${{ env.ROOT_DIR }}
+          echo "Listing contents of k8s/hello-py/templates:"
+          ls -l k8s/hello-py/templates
+
       - name: Verify file existence
         run: |
           cd ${{ env.ROOT_DIR }}
