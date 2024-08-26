@@ -17,26 +17,32 @@ jobs:
         run: |
           echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-      - name: Type something to test
+      - name: Print current working directory
         run: |
-          echo "Hello, World!"
-          echo "SHORT_SHA=${SHORT_SHA}"
+          echo "Current working directory:"
+          pwd
+
+      - name: Verify file existence
+        run: |
+          if [ ! -f k8s/hello-py/templates/deployments.yaml ]; then
+            echo "File not found: k8s/hello-py/templates/deployments.yaml"
+            exit 1
+          fi
 
       - name: Update the Helm revision in the helm values file
         run: |
           echo "Updating the Helm revision in the helm values file..."
-          sed -i "s/helm.sh\/revision: \".*\"/helm.sh\/revision: \"${{ env.SHORT_SHA }}\"/g" k8s/hello-java/templates/deployment.yaml
-          cat k8s/hello-java/templates/deployment.yaml
+          sed -i "s/helm.sh\/revision: \".*\"/helm.sh\/revision: \"${{ env.SHORT_SHA }}\"/g" k8s/hello-py/templates/deployments.yaml
+          cat k8s/hello-py/templates/deployments.yaml
 
       - name: Commit the changes to the Helm revision
         run: |
           echo "Committing the changes to the Helm revision..."
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git add k8s/hello-java/templates/deployment.yaml
+          git add k8s/hello-py/templates/deployments.yaml
           git commit -m "Update Helm revision to ${{ env.SHORT_SHA }}"
           git push
-
 
 
 
