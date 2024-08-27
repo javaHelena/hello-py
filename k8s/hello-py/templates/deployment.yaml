@@ -12,7 +12,7 @@ spec:
   template:
     metadata:
       annotations:
-        helm.sh/revision: "123456"
+        helm.sh/revision: "f6fccdb"
       labels:
         app.kubernetes.io/name: hello-py
         app.kubernetes.io/instance: hello-py
