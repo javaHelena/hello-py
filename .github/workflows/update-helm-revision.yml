@@ -63,7 +63,7 @@ jobs:
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
           git add deployment.yaml
-          git commit -m "Update image tag to ${{ env.SHORT_SHA }}"
+          git commit -m "[Triggered in GA] Update image tag to ${{ env.SHORT_SHA }}"
           git push origin HEAD:${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
