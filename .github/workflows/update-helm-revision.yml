@@ -54,14 +54,16 @@ jobs:
           sed -i "s/helm.sh\/revision: \".*\"/helm.sh\/revision: \"${{ env.SHORT_SHA }}\"/g" deployment.yaml
           cat deployment.yaml
 
-      - name: Commit the changes to the Helm revision
+      - name: Commit and Push Helm Update
         run: |
           pwd
           cd k8s/hello-py/templates
           pwd
           echo "Committing the changes to the Helm revision..."
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
           git add deployment.yaml
-          git commit -m "Update Helm revision to ${{ env.SHORT_SHA }}"
-          git push
+          git commit -m "Update image tag to ${{ env.SHORT_SHA }}"
+          git push origin HEAD:${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
